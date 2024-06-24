@@ -16,7 +16,7 @@ export const CrowdFundingProvider = ({children})=>{
     const [searchResults, setSearchResults] = useState([]); 
 
     const createCampaign = async(campaign)=>{
-        const{title,description,amount,deadline}=campaign;
+        const{title,description,amount,deadline,image}=campaign;
         const web3Modal = new Web3Modal();
         const connection = await web3Modal.connect();
         const provider = new ethers.providers.Web3Provider(connection);
@@ -30,7 +30,8 @@ export const CrowdFundingProvider = ({children})=>{
                 title, 
                 description, 
                 ethers.utils.parseUnits(amount,18),
-                new Date(deadline).getTime()
+                new Date(deadline).getTime(),
+                image
             );
 
             await transaction.wait();
@@ -53,6 +54,7 @@ export const CrowdFundingProvider = ({children})=>{
             description:campaign.description,
             target:ethers.utils.formatEther(campaign.target.toString()),
             deadline: campaign.deadline.toNumber(),
+            image:campaign.image,
             amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString(),),
             pId: i,
         }));
@@ -79,6 +81,7 @@ export const CrowdFundingProvider = ({children})=>{
             target: ethers.utils.formatEther(campaign.target.toString()),
             deadline: campaign.deadline.toNumber(),
             amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
+            image:campaign.image,
             pId: i,
             }));
             return  userData;

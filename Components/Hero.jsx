@@ -6,6 +6,7 @@ const Hero = ({ titleData, createCampaign }) => {
     description: "",
     amount: "",
     deadline: "",
+    image:"",
   });
 
   const createNewCampaign = async (e) => {
@@ -56,6 +57,23 @@ const Hero = ({ titleData, createCampaign }) => {
                       className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm apperance-none focuse:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                       id="lastName"
                       name="lastName" />
+                  </div>
+
+                  <div className="mb-1">
+                    <label htmlFor="image_url" className="inline-block mb-1 font-medium">
+                      Image URL
+                    </label>
+                    <input onChange={(e) =>
+                      setCamapaign({
+                        ...campaign,
+                        image: e.target.value,
+                      })}
+                      placeholder="Image URL"
+                      required
+                      type="text"
+                      className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm apperance-none focuse:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                      id="image_url"
+                      name="image_url" />
                   </div>
 
                   <div className="mb-1">
