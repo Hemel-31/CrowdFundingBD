@@ -11,7 +11,9 @@ export const CrowdFundingContext = React.createContext();
 
 export const CrowdFundingProvider = ({children})=>{
     const titleData = "Crowd Funding Contract";
-    const [currentAccount, setCurrentAccount] = useState(""); 
+    const [currentAccount, setCurrentAccount] = useState("");
+    const [campaigns, setCampaigns] = useState([]);
+    const [searchResults, setSearchResults] = useState([]); 
 
     const createCampaign = async(campaign)=>{
         const{title,description,amount,deadline}=campaign;
@@ -45,16 +47,17 @@ export const CrowdFundingProvider = ({children})=>{
 
         const campaigns = await contract.getCampaigns();
 
-        const parsedCampaings = campaigns.map((campaign,i)=>({
+        const parsedCampaigns = campaigns.map((campaign,i)=>({
             owner:campaign.owner,
             title:campaign.title,
             description:campaign.description,
-            targer:ethers.utils.formatEther(campaign.target.toString()),
+            target:ethers.utils.formatEther(campaign.target.toString()),
             deadline: campaign.deadline.toNumber(),
             amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString(),),
             pId: i,
         }));
-        return parsedCampaings;
+        setCampaigns(parsedCampaigns);
+        return parsedCampaigns;
     };
 
     const getUserCampaigns = async()=>{
@@ -92,7 +95,7 @@ export const CrowdFundingProvider = ({children})=>{
             value: ethers.utils.parseEther(amount),});
 
         await campaignData.wait();
-        location.reload();
+        await getCampaigns(); 
 
         return campaignData;
     };
@@ -101,7 +104,7 @@ export const CrowdFundingProvider = ({children})=>{
         const provider = new ethers.providers.JsonRpcProvider();
         const contract = fetchContract(provider);
 
-        const donations = await contract.geDonators(pId);
+        const donations = await contract.getDonators(pId);
         const numberOfDonations = donations[0].length;
 
         const parsedDonations = [];
@@ -114,6 +117,17 @@ export const CrowdFundingProvider = ({children})=>{
         }
         return parsedDonations;
     };
+
+    // ai
+    const searchCampaigns = (query) => {
+        const filteredCampaigns = campaigns.filter((campaign) =>
+          campaign.title.toLowerCase().includes(query.toLowerCase())
+        );
+        setSearchResults(filteredCampaigns);
+      };
+
+      
+    // ai
 
     const checkIfWalletConnected = async()=>{
         try{
@@ -136,7 +150,9 @@ export const CrowdFundingProvider = ({children})=>{
 
     useEffect(()=>{
         checkIfWalletConnected();
+        getCampaigns();
     },[]);
+
 
     const connectWallet = async()=>{
         try{
@@ -163,6 +179,8 @@ export const CrowdFundingProvider = ({children})=>{
             donate,
             getDonations,
             connectWallet,
+            searchCampaigns,
+            searchResults,
         }}>
             {children}
         </CrowdFundingContext.Provider>

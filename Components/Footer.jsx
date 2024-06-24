@@ -7,11 +7,8 @@ const Footer = () => {
   return(
     <footer class="text-center text-white backgroundMain">
       <div class="mx-6 py-10 text-center">
-        <div class="grid-cols-4 grid gap-14">
-          <div class="">
-            <h6 class="mb-4 flex items-center justify-center font-semibold uppercase">Hemel_31</h6>
-            <p class="justify-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit. At expedita culpa ab corrupti tempore. Libero blanditiis reprehenderit accusantium facere voluptate voluptates magni vel perspiciatis quidem. At, facilis vitae! Fugiat, blanditiis?</p>
-          </div>
+        <div class="grid-cols-3 grid gap-14">
+          
           <div class="">
           <h6 class="mb-4 flex items-center justify-center font-semibold uppercase">Products</h6>
           {ProductList.map((el,i)=>(
@@ -40,7 +37,7 @@ const Footer = () => {
       </div>
       <div class="backgroundMain p-6 text-center">
         <span>© 2024 Copyright: </span>
-        <a class="font-semibold" href="https://tailwind-elements.com">Hemel_31</a>
+        <a class="font-semibold" href="https://www.linkedin.com/in/munem-shahriar-hemel-67aa10105/">Hemel_31</a>
       </div>
     </footer>
   );
