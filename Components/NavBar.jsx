@@ -21,7 +21,6 @@ const NavBar = () => {
   };
   // ai
 
-  const menuList = ["Home", "Your Projectes", "Blog", "Contact Us"];
   return (
 
     <div class="backgroundMain">
@@ -55,13 +54,7 @@ const NavBar = () => {
               </li>
             </ul>
           </div>
-
-
-          {/* ai */}
-
-          {/* ai */}
-
-
+          
           {currentAccount && (
             <form onSubmit={handleSearchSubmit} className="flex items-center space-x-8 ml-96">
               <input
