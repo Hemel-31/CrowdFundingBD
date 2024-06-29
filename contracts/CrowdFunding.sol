@@ -19,9 +19,10 @@ contract CrowdFunding{
     uint256 public numberOfCampaigns = 0;
 
     function createCampaign(address _owner,string memory _title, string memory _description, uint256 _target, uint256 _deadline, string memory image_url) public returns (uint256){
+
+        require(_deadline > block.timestamp, "The deadline should be a date in the future");
+       
         Campaign storage campaign = campaigns[numberOfCampaigns];
-    
-        require(campaign.deadline<block.timestamp, "The deadline should be a date in the future");
 
         campaign.owner = _owner;
         campaign.title = _title;
@@ -66,5 +67,13 @@ contract CrowdFunding{
             allCampaigns[i] = item;
         }
         return allCampaigns;
+    }
+
+    function deleteCampaign(uint256 _id) public {
+        Campaign storage campaign = campaigns[_id];
+        require(msg.sender == campaign.owner, "Only the campaign owner can delete this campaign");
+
+        delete campaigns[_id];
+        numberOfCampaigns--;
     }
 }

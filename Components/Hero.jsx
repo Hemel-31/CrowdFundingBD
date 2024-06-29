@@ -11,9 +11,9 @@ const Hero = ({ titleData, createCampaign }) => {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const slides = [
-    "https://lectera.com/info/storage/img/20221226/17d39032a2d792c36904_808xFull.jpg",
-    "https://via.placeholder.com/1200x800/111111/FFFFFF/?text=Slide2",
-    "https://via.placeholder.com/1200x800/222222/FFFFFF/?text=Slide3",
+    "https://media.licdn.com/dms/image/C4D12AQEJ3RcPYNZctQ/article-cover_image-shrink_600_2000/0/1620695786724?e=2147483647&v=beta&t=hD4LcXapjEGRaVMDc-6NmHOPiIapMDiizlB2YcHFM_g",
+    "https://www.unrwa.org/sites/default/files/styles/full_news_745x450/public/content/news_articles/news_article_91716_37396_1557996560.jpg?itok=7pl0OA_P",
+    "https://www.thegleaner.com/gcdn/presto/2020/02/10/PEVC/31e0f88d-2db9-46ee-98d2-85fb99605b70-GettyImages-1135253768.jpg",
   ];
 
   useEffect(() => {

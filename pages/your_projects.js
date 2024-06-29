@@ -1,33 +1,31 @@
-// your_projectes
 import React,{useEffect, useContext, useState} from "react";
 
-import { CrowdFundingContext } from "@/Context/CrowdFunding";
+import { CrowdFundingContext } from "@/Context/CrowdFundingContext";
 import {Hero,Card,PopUp} from "../Components";
-import {CrowdFundingProvider} from "../Context/CrowdFunding";
+import {CrowdFundingProvider} from "../Context/CrowdFundingContext";
 
-const your_projectes = () =>{
+const your_projects = () =>{
   const {
     titleData,
     getCampaigns,
     createCampaign,
     donate,
-    getUserCampaigns,
     searchResults,
     getDonations,
   } = useContext(CrowdFundingContext);
 
 
   const [allcampaign, setAllcampaign] = useState();
-  const [usercampaign, setUsercampaign] = useState();
+  // const [searchCampaigns, setsearchCampaigns] = useState();
 
   useEffect(()=>{
     const getCampaignsData = getCampaigns();
-    const userCampaignsData = getUserCampaigns();
+    // const searchCampaignsData = searchCampaigns();
     return async()=>{
       const allData = await getCampaignsData;
-      const userData = await userCampaignsData;
+      // const searchDatas = await searchCampaignsData;
       setAllcampaign(allData);
-      setUsercampaign(userData);
+      // setsearchCampaigns(searchDatas);
     };
   },[]);
 
@@ -37,10 +35,11 @@ const your_projectes = () =>{
   console.log(donateCampaign);
   return(
     <>
+      <Hero titleData={titleData} createCampaign={createCampaign}/>
 
-<Card 
-        title="Your Created Campaign"
-        allcampaign={searchResults.length > 0 ? searchResults : usercampaign}
+      <Card
+        title="All Listed Campaign"
+        allcampaign={searchResults.length > 0 ? searchResults : allcampaign}
         setOpenModel={setOpenModel}
         setDonate={setDonateCampaign}
       />
@@ -57,4 +56,4 @@ const your_projectes = () =>{
   )
 };
 
-export default your_projectes;
+export default your_projects;

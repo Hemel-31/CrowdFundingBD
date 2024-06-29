@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
-import Web3Modal from "web3modal";
-import { ethers } from "ethers";
-
-import { CrowdFundingABI, CrowdFundingAddress } from "./contants";
+import React, { createContext, useState, useEffect } from 'react';
+import Web3Modal from 'web3modal';
+import { ethers } from 'ethers';
+import { CrowdFundingABI, CrowdFundingAddress } from './constants';
 
 const fetchContract = (signerOrProvider) =>
-    new ethers.Contract(CrowdFundingAddress, CrowdFundingABI, signerOrProvider);
+  new ethers.Contract(CrowdFundingAddress, CrowdFundingABI, signerOrProvider);
 
-export const CrowdFundingContext = React.createContext();
+export const CrowdFundingContext = createContext();
 
 export const CrowdFundingProvider = ({ children }) => {
     const titleData = "Crowd Funding Contract";
-    const [currentAccount, setCurrentAccount] = useState("");
+    const [currentAccount, setCurrentAccount] = useState('');
     const [campaigns, setCampaigns] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
 
@@ -62,31 +61,6 @@ export const CrowdFundingProvider = ({ children }) => {
         return parsedCampaigns;
     };
 
-    // const getUserCampaigns = async()=>{
-    //     const provider = new ethers.providers.JsonRpcProvider();
-    //     const contract = fetchContract(provider);
-
-    //     const allCampaigns = await contract.getCampaigns();
-
-    //     const accounts = await window.ethereum.request({method:"eth_accounts",});
-    //     const currentUser = accounts[0];
-
-    //     console.log(currentUser);
-    //     const filteredCampaigns = allCampaigns.filter((campaign)=>
-    //         campaign.owner === "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266");
-
-    //         const userData = filteredCampaigns.map((campaign,i)=>({
-    //         owner: campaign.owner,
-    //         title: campaign.title,
-    //         description: campaign.description,
-    //         target: ethers.utils.formatEther(campaign.target.toString()),
-    //         deadline: campaign.deadline.toNumber(),
-    //         amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
-    //         image:campaign.image,
-    //         pId: i,
-    //         }));
-    //         return  userData;
-    // };
 
     const getUserCampaigns = async () => {
         const provider = new ethers.providers.JsonRpcProvider();
@@ -113,6 +87,7 @@ export const CrowdFundingProvider = ({ children }) => {
             pId: i,
         }));
         return userData;
+
     };
 
     const donate = async (pId, amount) => {
@@ -141,7 +116,6 @@ export const CrowdFundingProvider = ({ children }) => {
         try {
             if (raisedAmount >= targetAmount) {
                 throw new Error("Target amount has been reached. No more donations accepted.");
-                window.alert("Target amount has been reached. No more donations accepted.");
             }
             const campaignData = await contract.donateToCampaign(pId, {
                 value: ethers.utils.parseEther(amount),
@@ -229,11 +203,35 @@ export const CrowdFundingProvider = ({ children }) => {
         }
     };
 
+
+    const deleteCampaign = async (pId) => {
+        const web3Modal = new Web3Modal();
+        const connection = await web3Modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+        const contract = fetchContract(signer);
+    
+        try {
+          const transaction = await contract.deleteCampaign(pId);
+          await transaction.wait();
+          console.log("Campaign deleted successfully", transaction);
+          window.location.reload();
+    
+          // Refresh campaigns list after deletion
+          await getCampaigns();
+        } catch (error) {
+          console.log("Campaign deletion failed", error);
+        }
+      };
+
     return (
         <CrowdFundingContext.Provider
             value={{
                 titleData,
                 currentAccount,
+                setCurrentAccount,
+                campaigns,
+                setCampaigns,
                 createCampaign,
                 getCampaigns,
                 getUserCampaigns,
@@ -242,6 +240,7 @@ export const CrowdFundingProvider = ({ children }) => {
                 connectWallet,
                 searchCampaigns,
                 searchResults,
+                deleteCampaign, 
             }}>
             {children}
         </CrowdFundingContext.Provider>

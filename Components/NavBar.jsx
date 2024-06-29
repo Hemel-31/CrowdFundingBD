@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 
-import { CrowdFundingContext } from "@/Context/CrowdFunding";
+import { CrowdFundingContext } from "@/Context/CrowdFundingContext";
 import Logo from "@/Components/Logo";
 import Link from "next/link";
 
@@ -38,8 +38,8 @@ const NavBar = () => {
                 </Link>
               </li>
               <li>
-                <Link href={`/your_projectes`} className="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
-                  Your Projectes
+                <Link href={`/your_projects`} className="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
+                  Your Projects
                 </Link>
               </li>
               <li>

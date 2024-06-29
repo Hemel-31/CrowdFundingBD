@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { CrowdFundingContext } from "@/Context/CrowdFunding";
+import { CrowdFundingContext } from "@/Context/CrowdFundingContext";
 
 const Card = ({ allcampaign, setOpenModel, setDonate, title }) => {
   const { searchResults } = useContext(CrowdFundingContext);

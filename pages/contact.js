@@ -1,6 +1,12 @@
 import React from "react";
 
 const Contact = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Implement form submission logic here
+    // Example: console.log("Form submitted!");
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
       <div className="bg-[#051725] p-8 rounded shadow-md w-full max-w-4xl text-white">
@@ -15,12 +21,15 @@ const Contact = () => {
             <strong>Phone:</strong> +8801300000000
           </p>
           <p className="text-gray-300">
-            <strong>Email:</strong> hemel@crowdfundingbd.com
+            <strong>Email:</strong>{" "}
+            <a href="mailto:hemel@crowdfundingbd.com" className="text-gray-300">
+              hemel@crowdfundingbd.com
+            </a>
           </p>
         </div>
 
         <h2 className="text-2xl font-bold mb-4">Send Us a Message</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="name">
               Name
